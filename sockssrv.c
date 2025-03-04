@@ -42,6 +42,7 @@
 static const struct server* server;
 unsigned long timeout;
 static sblist* targets;
+int nostdout = 0;
 
 struct target {
 	union sockaddr_union addr;
@@ -130,7 +131,7 @@ static int connect_target(struct client *client) {
 			goto eval_errno;
 		}
 
-		if(CONFIG_LOG) {
+		if(CONFIG_LOG && !nostdout) {
 			char clientname[256], servname[256];
 			int af;
 			void *ipdata;
@@ -299,6 +300,7 @@ int main(int argc, char** argv) {
 	signal(SIGPIPE, SIG_IGN);
 
 	if(inetd) {
+		nostdout = 1; /* necessary not to print the connection header */
 		struct client c;
 		c.fd = STDIN_FILENO;
 		void *peer = SOCKADDR_UNION_ADDRESS(&c.addr);
