@@ -307,7 +307,7 @@ int main(int argc, char** argv) {
 		socklen_t peerlen = SOCKADDR_UNION_LENGTH(&c.addr);
 
 		if (getpeername(c.fd, (struct sockaddr *)peer, &peerlen) < 0) {
-			dprintf(2, "error: can't open stdin\n");
+			dprintf(2, "error: can't open stdin/stdout\n");
 			return 1;
 		}
 
