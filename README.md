@@ -23,7 +23,7 @@ setup.
 command line options
 ------------------------
 
-    rrredir [-i listenip -p port -t timeout -b bindaddr] ip1:port1 ip2:port2...
+    rrredir [-i listenip -p port -t timeout -b bindaddr] [-I] ip1:port1 ip2:port2...
 
 all arguments are optional.
 by default listenip is 0.0.0.0 and port 1080.
@@ -34,6 +34,10 @@ e.g. ip1:port1@bindip1
 
 the -t timeout is specified in seconds, default: 0
 if timeout is set to 0, block until the OS cancels conn. attempt
+
+option -I indicates running from inetd, then client comes from stdin.
+could be used with any other program using a PIPE by redirecting STDIN & STDOUT
+e.g. socat TCP4-LISTEN:11122,fork,reuseaddr EXEC:"/usr/bin/rrredir -I 127.0.0.1\:22"
 
 all incoming connections will be redirected to ip1:port1, followed
 by ip2:port2 if the former host is unreachable, etc.
